@@ -8,6 +8,7 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/skills")
 public class SkillController {
     private final SkillService skillService;
 
@@ -15,27 +16,27 @@ public class SkillController {
         this.skillService = skillService;
     }
 
-    @GetMapping("/skills/{id}")
+    @GetMapping("/{id}")
     public Skill getSkill(@PathVariable int id){
         return skillService.getSkill(id);
     }
 
-    @GetMapping("/skills")
+    @GetMapping("")
     List<Skill> getAllSkills(){
         return skillService.getAllSkills();
     }
 
-    @PostMapping("/skills")
+    @PostMapping("")
     public Skill createSkill(@RequestBody Skill skill){
         return skillService.createSkill(skill);
     }
 
-    @PutMapping("/skills")
+    @PutMapping("")
     public Skill updateSkill(@RequestBody Skill skill){
         return skillService.updateSkill(skill);
     }
 
-    @DeleteMapping("/skills")
+    @DeleteMapping("/{id}")
     public void deleteSkill(@PathVariable int id){
         skillService.deleteSkill(id);
     }
