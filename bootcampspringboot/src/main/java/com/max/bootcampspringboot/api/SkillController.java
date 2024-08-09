@@ -1,6 +1,6 @@
-package com.max.bootcampspringboot.controller;
+package com.max.bootcampspringboot.api;
 
-import com.max.bootcampspringboot.entity.Skill;
+import com.max.bootcampspringboot.data.entity.Skill;
 import com.max.bootcampspringboot.service.SkillService;
 import org.springframework.web.bind.annotation.*;
 

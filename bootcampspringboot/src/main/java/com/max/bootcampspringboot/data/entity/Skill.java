@@ -1,4 +1,4 @@
-package com.max.bootcampspringboot.entity;
+package com.max.bootcampspringboot.data.entity;
 
 import jakarta.persistence.*;
 

@@ -1,7 +1,7 @@
 package com.max.bootcampspringboot.service;
 
-import com.max.bootcampspringboot.entity.Skill;
-import com.max.bootcampspringboot.repository.SkillRepository;
+import com.max.bootcampspringboot.data.entity.Skill;
+import com.max.bootcampspringboot.data.repository.SkillRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
