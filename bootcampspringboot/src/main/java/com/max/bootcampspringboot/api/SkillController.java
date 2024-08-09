@@ -1,7 +1,10 @@
 package com.max.bootcampspringboot.api;
 
+import com.max.bootcampspringboot.api.mapper.ApiSkillMapper;
+import com.max.bootcampspringboot.api.model.ApiSkill;
 import com.max.bootcampspringboot.data.entity.Skill;
 import com.max.bootcampspringboot.service.SkillService;
+import com.max.bootcampspringboot.service.mapper.ServiceSkillMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,29 +14,31 @@ import java.util.List;
 @RequestMapping("/skills")
 public class SkillController {
     private final SkillService skillService;
+    private final ApiSkillMapper apiSkillMapper;
 
-    public SkillController(SkillService skillService) {
+    public SkillController(SkillService skillService, ApiSkillMapper apiSkillMapper) {
         this.skillService = skillService;
+        this.apiSkillMapper = apiSkillMapper;
     }
 
     @GetMapping("/{id}")
-    public Skill getSkill(@PathVariable int id){
-        return skillService.getSkill(id);
+    public ApiSkill getSkill(@PathVariable int id){
+        return apiSkillMapper.toApiSkill(skillService.getSkill(id));
     }
 
     @GetMapping("")
-    List<Skill> getAllSkills(){
-        return skillService.getAllSkills();
+    List<ApiSkill> getAllSkills(){
+        return apiSkillMapper.toApiSkillList(skillService.getAllSkills());
     }
 
     @PostMapping("")
-    public Skill createSkill(@RequestBody Skill skill){
-        return skillService.createSkill(skill);
+    public ApiSkill createSkill(@RequestBody ApiSkill skill){
+        return apiSkillMapper.toApiSkill(skillService.createSkill(apiSkillMapper.toServiceSkill(skill)));
     }
 
     @PutMapping("")
-    public Skill updateSkill(@RequestBody Skill skill){
-        return skillService.updateSkill(skill);
+    public ApiSkill updateSkill(@RequestBody ApiSkill skill){
+        return apiSkillMapper.toApiSkill(skillService.updateSkill(apiSkillMapper.toServiceSkill(skill)));
     }
 
     @DeleteMapping("/{id}")
