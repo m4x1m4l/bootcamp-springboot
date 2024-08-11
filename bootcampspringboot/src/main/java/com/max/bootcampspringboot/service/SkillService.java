@@ -1,9 +1,7 @@
 package com.max.bootcampspringboot.service;
 
-import com.max.bootcampspringboot.data.entity.Skill;
-import com.max.bootcampspringboot.data.repository.SkillRepository;
-import com.max.bootcampspringboot.service.mapper.ServiceSkillMapper;
-import com.max.bootcampspringboot.service.model.ServiceSkill;
+import com.max.bootcampspringboot.entity.Skill;
+import com.max.bootcampspringboot.repository.SkillRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -29,19 +27,20 @@ public class SkillService {
         return serviceSkillMapper.toServiceSkillList( this.skillRepository.findAll());
     }
 
-    public ServiceSkill createSkill(ServiceSkill skill) {
+    public ServiceSkill addSkill(ServiceSkill skill) {
         return serviceSkillMapper.toServiceSkill( this.skillRepository.save(serviceSkillMapper.toSkill( skill)));
     }
 
-    public ServiceSkill updateSkill(ServiceSkill skill) {
-        return this.skillRepository.findById(skill.getId()).map(oldSkill -> {
-            oldSkill.setName((skill.getName()));
-            return serviceSkillMapper.toServiceSkill(skillRepository.save(oldSkill));
-        }).orElseThrow(() ->  new EntityNotFoundException("Skill not found with id: " + skill.getId()));
+    public Skill updateSkill(Skill skill) {
+        Skill oldSkill = getSkill(skill.getId());
+        oldSkill.setName(skill.getName());
+        return skillRepository.save(oldSkill);
+
     }
 
     public void deleteSkill(int id) {
-        Skill toDelete = this.skillRepository.findById(id).orElseThrow(() ->  new EntityNotFoundException("Skill not found with id: " + id));
-        this.skillRepository.deleteById(id);
+        if (skillRepository.existsById(id)) {
+            skillRepository.deleteById(id);
+        }
     }
 }
