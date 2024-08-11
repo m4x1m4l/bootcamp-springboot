@@ -1,4 +1,4 @@
-package com.max.bootcampspringboot.controller;
+package com.max.bootcampspringboot.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Demo {
+public class DemoController {
     @GetMapping("/hello")
     public String sayHello(){
         return "Hello World!";

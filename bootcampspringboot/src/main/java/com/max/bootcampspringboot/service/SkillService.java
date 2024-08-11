@@ -1,7 +1,7 @@
 package com.max.bootcampspringboot.service;
-
-import com.max.bootcampspringboot.entity.Skill;
-import com.max.bootcampspringboot.repository.SkillRepository;
+import com.max.bootcampspringboot.data.repository.SkillRepository;
+import com.max.bootcampspringboot.service.mapper.ServiceSkillMapper;
+import com.max.bootcampspringboot.service.model.ServiceSkill;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -11,28 +11,29 @@ import java.util.List;
 public class SkillService {
 
     private final SkillRepository skillRepository;
+    private final ServiceSkillMapper serviceSkillMapper = new ServiceSkillMapper();
 
     public SkillService(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
     }
 
-    public Skill getSkill(int id) {
-        return skillRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
+    public ServiceSkill getSkill(int id) {
+        return serviceSkillMapper.toServiceSkill(this.skillRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id)));
     }
 
-    public List<Skill> getAllSkills() {
-        return skillRepository.findAll();
+    public List<ServiceSkill> getAllSkills() {
+        return serviceSkillMapper.toServiceSkillList( this.skillRepository.findAll());
     }
 
-    public Skill addSkill(Skill skill) {
-        return skillRepository.save(skill);
+    public ServiceSkill addSkill(ServiceSkill skill) {
+        return serviceSkillMapper.toServiceSkill( this.skillRepository.save(serviceSkillMapper.toSkill( skill)));
     }
 
-    public Skill updateSkill(Skill skill) {
-        Skill oldSkill = getSkill(skill.getId());
+    public ServiceSkill updateSkill(ServiceSkill skill) {
+        ServiceSkill oldSkill = getSkill(skill.getId());
         oldSkill.setName(skill.getName());
-        return skillRepository.save(oldSkill);
+        return serviceSkillMapper.toServiceSkill(skillRepository.save(serviceSkillMapper.toSkill(oldSkill)));
 
     }
 
