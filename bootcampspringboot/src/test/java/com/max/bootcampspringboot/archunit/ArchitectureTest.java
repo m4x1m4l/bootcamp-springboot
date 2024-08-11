@@ -15,9 +15,10 @@ import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 public class ArchitectureTest {
+    JavaClasses importedClasses = new ClassFileImporter().importPackages("com.max.bootcampspringboot");
+
     @Test
     public void packageDependencyCheck() {
-        JavaClasses importedClasses = new ClassFileImporter().importPackages("com.max.bootcampspringboot");
 
         ArchRule rule = classes().that().resideInAPackage("..api..")
                 .should().onlyHaveDependentClassesThat().resideInAnyPackage("..api..", "..service..");
@@ -51,16 +52,15 @@ public class ArchitectureTest {
 
     @Test
     public void classAndPackageContainmentCheck() {
-        JavaClasses importedClasses = new ClassFileImporter().importPackages("com.max.bootcampspringboot");
-        ArchRule rule = classes().that().haveNameMatching(".*Controller")
+        ArchRule rule = classes().that().haveSimpleNameEndingWith("Controller")
                 .should().resideInAPackage("..api..");
         rule.check(importedClasses);
 
-        rule = classes().that().haveNameMatching(".*Service")
+        rule = classes().that().haveSimpleNameEndingWith("Service")
                 .should().resideInAPackage("..service..");
         rule.check(importedClasses);
 
-        rule = classes().that().haveNameMatching(".*Repository")
+        rule = classes().that().haveSimpleNameEndingWith("Repository")
                 .should().resideInAPackage("..data..");
         rule.check(importedClasses);
 
@@ -87,7 +87,6 @@ public class ArchitectureTest {
 
     @Test
     public void annotationChecks() {
-        JavaClasses importedClasses = new ClassFileImporter().importPackages("com.max.bootcampspringboot");
 
         ArchRule rule = classes()
                 .that().haveSimpleNameEndingWith("Service")
@@ -110,7 +109,6 @@ public class ArchitectureTest {
 
     @Test
     public void layeredArchitectureCheck() {
-        JavaClasses importedClasses = new ClassFileImporter().importPackages("com.max.bootcampspringboot");
         ArchRule rule = layeredArchitecture()
                 .consideringAllDependencies()
                 .layer("api").definedBy("..api..")
@@ -126,7 +124,6 @@ public class ArchitectureTest {
 
     @Test
     public void cycleCheck() {
-        JavaClasses importedClasses = new ClassFileImporter().importPackages("com.max.bootcampspringboot");
         ArchRule rule = slices().matching("com.max.(*)..").should().beFreeOfCycles();
 
         rule.check(importedClasses);
