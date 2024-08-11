@@ -28,7 +28,7 @@ public class SkillController {
 
     @GetMapping("")
     List<ApiSkill> getAllSkills(){
-        return apiSkillMapper.toApiSkillList(skillService.getAllSkills());
+        return apiSkillMapper.toApiSkill(skillService.getAllSkills());
     }
 
     @PostMapping("")

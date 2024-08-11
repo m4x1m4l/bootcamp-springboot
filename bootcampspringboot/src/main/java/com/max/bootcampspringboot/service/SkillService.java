@@ -5,7 +5,6 @@ import com.max.bootcampspringboot.data.repository.SkillRepository;
 import com.max.bootcampspringboot.service.mapper.ServiceSkillMapper;
 import com.max.bootcampspringboot.service.model.ServiceSkill;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
