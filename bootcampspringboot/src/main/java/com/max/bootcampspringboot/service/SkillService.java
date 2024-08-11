@@ -17,27 +17,28 @@ public class SkillService {
     }
 
     public Skill getSkill(int id) {
-        return this.skillRepository.findById(id)
+        return skillRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
     }
 
     public List<Skill> getAllSkills() {
-        return this.skillRepository.findAll();
+        return skillRepository.findAll();
     }
 
-    public Skill createSkill(Skill skill) {
-        return this.skillRepository.save(skill);
+    public Skill addSkill(Skill skill) {
+        return skillRepository.save(skill);
     }
 
     public Skill updateSkill(Skill skill) {
-        return this.skillRepository.findById(skill.getId()).map(oldSkill -> {
-            oldSkill.setName((skill.getName()));
-            return skillRepository.save(oldSkill);
-        }).orElseThrow(() ->  new EntityNotFoundException("Skill not found with id: " + skill.getId()));
+        Skill oldSkill = getSkill(skill.getId());
+        oldSkill.setName(skill.getName());
+        return skillRepository.save(oldSkill);
+
     }
 
     public void deleteSkill(int id) {
-        Skill toDelete = this.skillRepository.findById(id).orElseThrow(() ->  new EntityNotFoundException("Skill not found with id: " + id));
-        this.skillRepository.delete(toDelete);
+        if (skillRepository.existsById(id)) {
+            skillRepository.deleteById(id);
+        }
     }
 }

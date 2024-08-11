@@ -21,17 +21,17 @@ public class SkillController {
         return skillService.getSkill(id);
     }
 
-    @GetMapping("")
+    @GetMapping
     List<Skill> getAllSkills(){
         return skillService.getAllSkills();
     }
 
-    @PostMapping("")
-    public Skill createSkill(@RequestBody Skill skill){
-        return skillService.createSkill(skill);
+    @PostMapping
+    public Skill addSkill(@RequestBody Skill skill){
+        return skillService.addSkill(skill);
     }
 
-    @PutMapping("")
+    @PutMapping
     public Skill updateSkill(@RequestBody Skill skill){
         return skillService.updateSkill(skill);
     }
