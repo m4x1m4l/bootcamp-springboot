@@ -11,11 +11,10 @@ import java.util.List;
 public class SkillService {
 
     private final SkillRepository skillRepository;
-    private final ServiceSkillMapper serviceSkillMapper;
+    private final ServiceSkillMapper serviceSkillMapper = new ServiceSkillMapper();
 
-    public SkillService(SkillRepository skillRepository,ServiceSkillMapper serviceSkillMapper) {
+    public SkillService(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
-        this.serviceSkillMapper = serviceSkillMapper;
     }
 
     public ServiceSkill getSkill(int id) {
