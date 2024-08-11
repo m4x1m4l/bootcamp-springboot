@@ -14,11 +14,9 @@ import java.util.List;
 @RequestMapping("/skills")
 public class SkillController {
     private final SkillService skillService;
-    private final ApiSkillMapper apiSkillMapper;
-
-    public SkillController(SkillService skillService, ApiSkillMapper apiSkillMapper) {
+    private final ApiSkillMapper apiSkillMapper = new ApiSkillMapper();
+    public SkillController(SkillService skillService) {
         this.skillService = skillService;
-        this.apiSkillMapper = apiSkillMapper;
     }
 
     @GetMapping("/{id}")
@@ -28,12 +26,12 @@ public class SkillController {
 
     @GetMapping("")
     List<ApiSkill> getAllSkills(){
-        return apiSkillMapper.toApiSkillList(skillService.getAllSkills());
+        return apiSkillMapper.toApiSkill(skillService.getAllSkills());
     }
 
     @PostMapping("")
     public ApiSkill createSkill(@RequestBody ApiSkill skill){
-        return apiSkillMapper.toApiSkill(skillService.createSkill(apiSkillMapper.toServiceSkill(skill)));
+        return apiSkillMapper.toApiSkill(skillService.addSkill(apiSkillMapper.toServiceSkill(skill)));
     }
 
     @PutMapping("")

@@ -1,11 +1,8 @@
 package com.max.bootcampspringboot.service;
-
-import com.max.bootcampspringboot.data.entity.Skill;
 import com.max.bootcampspringboot.data.repository.SkillRepository;
 import com.max.bootcampspringboot.service.mapper.ServiceSkillMapper;
 import com.max.bootcampspringboot.service.model.ServiceSkill;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +11,10 @@ import java.util.List;
 public class SkillService {
 
     private final SkillRepository skillRepository;
-    private final ServiceSkillMapper serviceSkillMapper;
+    private final ServiceSkillMapper serviceSkillMapper = new ServiceSkillMapper();
 
-    public SkillService(SkillRepository skillRepository,ServiceSkillMapper serviceSkillMapper) {
+    public SkillService(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
-        this.serviceSkillMapper = serviceSkillMapper;
     }
 
     public ServiceSkill getSkill(int id) {
@@ -30,19 +26,20 @@ public class SkillService {
         return serviceSkillMapper.toServiceSkillList( this.skillRepository.findAll());
     }
 
-    public ServiceSkill createSkill(ServiceSkill skill) {
+    public ServiceSkill addSkill(ServiceSkill skill) {
         return serviceSkillMapper.toServiceSkill( this.skillRepository.save(serviceSkillMapper.toSkill( skill)));
     }
 
     public ServiceSkill updateSkill(ServiceSkill skill) {
-        return this.skillRepository.findById(skill.getId()).map(oldSkill -> {
-            oldSkill.setName((skill.getName()));
-            return serviceSkillMapper.toServiceSkill(skillRepository.save(oldSkill));
-        }).orElseThrow(() ->  new EntityNotFoundException("Skill not found with id: " + skill.getId()));
+        ServiceSkill oldSkill = getSkill(skill.getId());
+        oldSkill.setName(skill.getName());
+        return serviceSkillMapper.toServiceSkill(skillRepository.save(serviceSkillMapper.toSkill(oldSkill)));
+
     }
 
     public void deleteSkill(int id) {
-        Skill toDelete = this.skillRepository.findById(id).orElseThrow(() ->  new EntityNotFoundException("Skill not found with id: " + id));
-        this.skillRepository.deleteById(id);
+        if (skillRepository.existsById(id)) {
+            skillRepository.deleteById(id);
+        }
     }
 }
