@@ -1,7 +1,7 @@
 package com.max.bootcampspringboot.service;
-
-import com.max.bootcampspringboot.entity.Skill;
-import com.max.bootcampspringboot.repository.SkillRepository;
+import com.max.bootcampspringboot.data.repository.SkillRepository;
+import com.max.bootcampspringboot.service.mapper.ServiceSkillMapper;
+import com.max.bootcampspringboot.service.model.ServiceSkill;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +31,10 @@ public class SkillService {
         return serviceSkillMapper.toServiceSkill( this.skillRepository.save(serviceSkillMapper.toSkill( skill)));
     }
 
-    public Skill updateSkill(Skill skill) {
-        Skill oldSkill = getSkill(skill.getId());
+    public ServiceSkill updateSkill(ServiceSkill skill) {
+        ServiceSkill oldSkill = getSkill(skill.getId());
         oldSkill.setName(skill.getName());
-        return skillRepository.save(oldSkill);
+        return serviceSkillMapper.toServiceSkill(skillRepository.save(serviceSkillMapper.toSkill(oldSkill)));
 
     }
 

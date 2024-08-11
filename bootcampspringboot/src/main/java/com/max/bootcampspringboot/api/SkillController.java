@@ -33,7 +33,7 @@ public class SkillController {
 
     @PostMapping("")
     public ApiSkill createSkill(@RequestBody ApiSkill skill){
-        return apiSkillMapper.toApiSkill(skillService.createSkill(apiSkillMapper.toServiceSkill(skill)));
+        return apiSkillMapper.toApiSkill(skillService.addSkill(apiSkillMapper.toServiceSkill(skill)));
     }
 
     @PutMapping("")
