@@ -24,17 +24,17 @@ public class SkillController {
         return apiSkillMapper.toApiSkill(skillService.getSkill(id));
     }
 
-    @GetMapping("")
+    @GetMapping
     List<ApiSkill> getAllSkills(){
         return apiSkillMapper.toApiSkill(skillService.getAllSkills());
     }
 
-    @PostMapping("")
-    public ApiSkill createSkill(@RequestBody ApiSkill skill){
+    @PostMapping
+    public ApiSkill addSkill(@RequestBody ApiSkill skill){
         return apiSkillMapper.toApiSkill(skillService.addSkill(apiSkillMapper.toServiceSkill(skill)));
     }
 
-    @PutMapping("")
+    @PutMapping
     public ApiSkill updateSkill(@RequestBody ApiSkill skill){
         return apiSkillMapper.toApiSkill(skillService.updateSkill(apiSkillMapper.toServiceSkill(skill)));
     }
