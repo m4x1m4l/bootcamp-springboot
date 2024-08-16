@@ -21,7 +21,7 @@ public class ServiceEmployeeMapper {
         return employee.stream().map(ServiceEmployeeMapper::toServiceEmployee).toList();
     }
 
-    public Employee toEmployee(ServiceEmployee serviceEmployee) {
+    public static Employee toEmployee(ServiceEmployee serviceEmployee) {
         Employee employee = new Employee();
         employee.setSalutation(serviceEmployee.getSalutation());
         employee.setBirthdate(serviceEmployee.getBirthdate());
