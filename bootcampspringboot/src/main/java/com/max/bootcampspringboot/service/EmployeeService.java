@@ -3,11 +3,8 @@ package com.max.bootcampspringboot.service;
 import com.max.bootcampspringboot.data.entity.Employee;
 import com.max.bootcampspringboot.data.entity.Team;
 import com.max.bootcampspringboot.data.repository.EmployeeRepository;
-import com.max.bootcampspringboot.data.repository.EmployeeRepository;
 import com.max.bootcampspringboot.data.repository.TeamRepository;
 import com.max.bootcampspringboot.service.mapper.ServiceEmployeeMapper;
-import com.max.bootcampspringboot.service.mapper.ServiceEmployeeMapper;
-import com.max.bootcampspringboot.service.model.ServiceEmployee;
 import com.max.bootcampspringboot.service.model.ServiceEmployee;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,7 +15,6 @@ import java.util.List;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final TeamRepository teamRepository;
-    private final ServiceEmployeeMapper serviceEmployeeMapper = new ServiceEmployeeMapper();
 
     public EmployeeService(EmployeeRepository employeeRepository, TeamRepository teamRepository) {
         this.employeeRepository = employeeRepository;
@@ -26,12 +22,12 @@ public class EmployeeService {
     }
 
     public ServiceEmployee getEmployee(int id) {
-        return serviceEmployeeMapper.toServiceEmployee(this.employeeRepository.findById(id)
+        return ServiceEmployeeMapper.toServiceEmployee(this.employeeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id)));
     }
 
     public List<ServiceEmployee> getAllEmployees() {
-        return serviceEmployeeMapper.toServiceEmployee( this.employeeRepository.findAll());
+        return ServiceEmployeeMapper.toServiceEmployee( this.employeeRepository.findAll());
     }
 
     public ServiceEmployee addEmployee(ServiceEmployee employee) {
@@ -42,7 +38,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new RuntimeException("Team ID of Employee not found: " + employee.getTeamId()));
         employeeToSave.setTeam(teamOfEmployee);
 
-        return serviceEmployeeMapper.toServiceEmployee( this.employeeRepository.save(employeeToSave));
+        return ServiceEmployeeMapper.toServiceEmployee( this.employeeRepository.save(employeeToSave));
     }
 
     public ServiceEmployee updateEmployee(ServiceEmployee employee) {
@@ -60,7 +56,7 @@ public class EmployeeService {
 
         employeeToSave.setTeam(teamOfEmployee);
 
-        return serviceEmployeeMapper.toServiceEmployee(employeeRepository.save(employeeToSave));
+        return ServiceEmployeeMapper.toServiceEmployee(employeeRepository.save(employeeToSave));
 
     }
 

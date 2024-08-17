@@ -11,7 +11,6 @@ import java.util.List;
 @RequestMapping("/knowledges")
 public class KnowledgeController {
     private final KnowledgeService knowledgeService;
-    private final ApiKnowledgeMapper apiKnowledgeMapper = new ApiKnowledgeMapper();
 
     public KnowledgeController(KnowledgeService knowledgeService) {
         this.knowledgeService = knowledgeService;
@@ -19,22 +18,22 @@ public class KnowledgeController {
 
     @GetMapping("/{employeeId}/{skillId}")
     public ApiKnowledge getKnowledge(@PathVariable int employeeId, @PathVariable int skillId){
-        return apiKnowledgeMapper.toApiKnowledge(knowledgeService.getKnowledge(employeeId, skillId));
+        return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getKnowledge(employeeId, skillId));
     }
 
-    @GetMapping
-    List<ApiKnowledge> getAllKnowledges(){
-        return apiKnowledgeMapper.toApiKnowledge(knowledgeService.getAllKnowledges());
+    @GetMapping("/{employeeId}")
+    List<ApiKnowledge> getAllByEmployeeId(@PathVariable int employeeId){
+        return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getAllKnowledgesByEmployeeId(employeeId));
     }
 
     @PostMapping
-    public ApiKnowledge addKnowledge(@RequestBody ApiKnowledge knowledge){
-        return apiKnowledgeMapper.toApiKnowledge(knowledgeService.addKnowledge(apiKnowledgeMapper.toServiceKnowledge(knowledge)));
+    public ApiKnowledge addKnowledgeByEmployeeId(@RequestBody ApiKnowledge knowledge){
+        return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.addKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge)));
     }
 
     @PutMapping
     public ApiKnowledge updateKnowledge(@RequestBody ApiKnowledge knowledge){
-        return apiKnowledgeMapper.toApiKnowledge(knowledgeService.updateKnowledge(apiKnowledgeMapper.toServiceKnowledge(knowledge)));
+        return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.updateKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge)));
     }
 
     @DeleteMapping("/{employeeId}/{skillId}")

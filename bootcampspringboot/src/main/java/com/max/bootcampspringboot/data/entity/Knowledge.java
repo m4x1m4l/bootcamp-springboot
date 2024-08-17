@@ -8,6 +8,7 @@ public class Knowledge {
     @EmbeddedId
     private KnowledgeId id;
 
+    @Column(name = "experiencelevel")
     private int experienceLevel;
 
     @ManyToOne

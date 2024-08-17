@@ -11,7 +11,6 @@ import java.util.List;
 @RequestMapping("/teams")
 public class TeamController {
     private final TeamService teamService;
-    private final ApiTeamMapper apiTeamMapper = new ApiTeamMapper();
 
     public TeamController(TeamService teamService) {
         this.teamService = teamService;
@@ -19,22 +18,22 @@ public class TeamController {
 
     @GetMapping("/{id}")
     public ApiTeam getTeam(@PathVariable int id){
-        return apiTeamMapper.toApiTeam(teamService.getTeam(id));
+        return ApiTeamMapper.toApiTeam(teamService.getTeam(id));
     }
 
     @GetMapping
     List<ApiTeam> getAllTeams(){
-        return apiTeamMapper.toApiTeam(teamService.getAllTeams());
+        return ApiTeamMapper.toApiTeam(teamService.getAllTeams());
     }
 
     @PostMapping
     public ApiTeam addTeam(@RequestBody ApiTeam team){
-        return apiTeamMapper.toApiTeam(teamService.addTeam(apiTeamMapper.toServiceTeam(team)));
+        return ApiTeamMapper.toApiTeam(teamService.addTeam(ApiTeamMapper.toServiceTeam(team)));
     }
 
     @PutMapping
     public ApiTeam updateTeam(@RequestBody ApiTeam team){
-        return apiTeamMapper.toApiTeam(teamService.updateTeam(apiTeamMapper.toServiceTeam(team)));
+        return ApiTeamMapper.toApiTeam(teamService.updateTeam(ApiTeamMapper.toServiceTeam(team)));
     }
 
     @DeleteMapping("/{id}")

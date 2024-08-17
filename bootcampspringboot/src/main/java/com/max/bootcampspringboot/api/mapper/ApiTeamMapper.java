@@ -23,7 +23,7 @@ public class ApiTeamMapper {
         ServiceTeam serviceTeam = new ServiceTeam();
         serviceTeam.setId(apiTeam.getId());
         serviceTeam.setName(apiTeam.getName());
-        apiTeam.setTeamleadId(apiTeam.getTeamleadId());
+        serviceTeam.setTeamleadId(apiTeam.getTeamleadId());
         return serviceTeam;
     }
 }

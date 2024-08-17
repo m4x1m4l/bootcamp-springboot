@@ -29,6 +29,7 @@ public class ServiceEmployeeMapper {
         employee.setLastname(serviceEmployee.getLastname());
         employee.setFirstname(serviceEmployee.getFirstname());
         //not setting team
+        //gets set in add and update EmployeeService methods
         return employee;
     }
 }

@@ -1,7 +1,5 @@
 package com.max.bootcampspringboot.service.mapper;
 
-import com.max.bootcampspringboot.api.model.ApiTeam;
-import com.max.bootcampspringboot.data.entity.Skill;
 import com.max.bootcampspringboot.data.entity.Team;
 import com.max.bootcampspringboot.service.model.ServiceTeam;
 
@@ -25,6 +23,7 @@ public class ServiceTeamMapper {
         team.setId(serviceTeam.getId());
         team.setName(serviceTeam.getName());
         //teamleadid not set
+        //gets set in add and update method in TeamService
         return team;
     }
 

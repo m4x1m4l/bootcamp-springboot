@@ -1,8 +1,6 @@
 package com.max.bootcampspringboot.api.mapper;
 
 import com.max.bootcampspringboot.api.model.ApiKnowledge;
-import com.max.bootcampspringboot.service.mapper.ServiceKnowledgeMapper;
-import com.max.bootcampspringboot.service.model.ServiceEmployee;
 import com.max.bootcampspringboot.service.model.ServiceKnowledge;
 
 import java.util.List;
@@ -20,7 +18,7 @@ public class ApiKnowledgeMapper {
         return serviceKnowledge.stream().map(ApiKnowledgeMapper::toApiKnowledge).toList();
     }
 
-    public ServiceKnowledge toServiceKnowledge(ApiKnowledge apiKnowledge) {
+    public static ServiceKnowledge toServiceKnowledge(ApiKnowledge apiKnowledge) {
         ServiceKnowledge serviceKnowledge = new ServiceKnowledge();
         serviceKnowledge.setExperienceLevel(apiKnowledge.getExperienceLevel());
         serviceKnowledge.setEmployeeId(apiKnowledge.getEmployeeId());
