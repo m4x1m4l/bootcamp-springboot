@@ -13,5 +13,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<String> findFirstnameByTeamName(@Param("teamName")String teamName);
 
 
+    @Query("SELECT t.name, COUNT(e) FROM Employee e JOIN e.team t GROUP BY t.id, t.name ORDER BY t.id")
+    public List<String> findEmployeeCountPerTeam();
+
 
 }

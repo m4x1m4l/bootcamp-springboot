@@ -44,5 +44,16 @@ public class EmployeeController {
     public List<String> getFirstnamesByTeamName(@RequestParam(name = "teamName") String teamName){
         return employeeService.findFirstnameByTeamName(teamName);
     }
+
+    @GetMapping("/per-team")
+    public List<String> getEmployeeCountPerTeam(){
+        return employeeService.findEmployeeCountPerTeam();
+    }
+
+    @GetMapping("/older-than/{age}")
+    public List<ApiEmployee> getNamesOfEmployeesOlderThanX(@PathVariable int age){
+        return ApiEmployeeMapper.toApiEmployee(employeeService.findNamesOfEmployeesOlderThanX(age));
+    }
+
 }
 
