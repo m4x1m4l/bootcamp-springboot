@@ -65,4 +65,8 @@ public class EmployeeService {
             employeeRepository.deleteById(id);
         }
     }
+
+    public List<String> findFirstnameByTeamName(String teamName){
+        return employeeRepository.findFirstnameByTeamName(teamName);
+    }
 }
