@@ -46,4 +46,14 @@ public class TeamController {
         return teamService.findTeamsWithMoreThanXEmployees(employeeCount);
     }
 
+    @GetMapping("/largest-team")
+    public String getLargestTeam(){
+        return teamService.findLargestTeam();
+    }
+
+    @GetMapping("/smallest-teams")
+    public List<String> getSmallestTeam(){
+        return teamService.findSmallestTeams();
+    }
+
 }

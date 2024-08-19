@@ -9,7 +9,10 @@ import com.max.bootcampspringboot.service.model.ServiceTeam;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TeamService {
@@ -60,5 +63,42 @@ public class TeamService {
 
     public List<String> findTeamsWithMoreThanXEmployees(int employeeCount){
         return teamRepository.findTeamsWithMoreThanXEmployees(employeeCount);
+    }
+
+    public String findLargestTeam(){
+        return teamRepository.findLargestTeam();
+    }
+
+    public List<String> findSmallestTeams(){
+        //Liste mit Teams holen
+        //Team , Size map machen
+        //sortieren nach Size
+        //schauen ob Size von [0] bei dem folgenden gleich ist
+        //in return Liste mit Name, Size einfügen
+        List<Team> teams = teamRepository.findAll();
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+        teams.forEach(t -> {
+            map.put(t.getName(), t.getEmployees().size());
+        });
+
+        List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(map.entrySet());
+        sortedEntries.sort(Map.Entry.comparingByValue());
+
+        if (sortedEntries.isEmpty()) {
+            System.out.println("Die Map ist leer.");
+            return null;
+        }
+
+        int smallestTeamSize = sortedEntries.get(0).getValue();
+
+        List<String> result = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : sortedEntries) {
+            if (entry.getValue() > smallestTeamSize) {
+                break;
+            }
+            result.add(entry.getKey() + " " + entry.getValue());
+        }
+
+        return result;
     }
 }

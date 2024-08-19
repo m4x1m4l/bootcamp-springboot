@@ -41,4 +41,9 @@ public class SkillController {
         skillService.deleteSkill(id);
     }
 
+    @GetMapping("/rarest-skill")
+    public String getRarestSkill(){
+        return skillService.findRarestSkill();
+    }
+
 }
