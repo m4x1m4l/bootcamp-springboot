@@ -1,8 +1,10 @@
 package com.max.bootcampspringboot.service;
 
 import com.max.bootcampspringboot.data.entity.Employee;
+import com.max.bootcampspringboot.data.entity.Knowledge;
 import com.max.bootcampspringboot.data.entity.Team;
 import com.max.bootcampspringboot.data.repository.EmployeeRepository;
+import com.max.bootcampspringboot.data.repository.KnowledgeRepository;
 import com.max.bootcampspringboot.data.repository.TeamRepository;
 import com.max.bootcampspringboot.service.mapper.ServiceEmployeeMapper;
 import com.max.bootcampspringboot.service.model.ServiceEmployee;
@@ -11,16 +13,19 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final TeamRepository teamRepository;
+    private final KnowledgeRepository knowledgeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository, TeamRepository teamRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, TeamRepository teamRepository, KnowledgeRepository knowledgeRepository) {
         this.employeeRepository = employeeRepository;
         this.teamRepository = teamRepository;
+        this.knowledgeRepository = knowledgeRepository;
     }
 
     public ServiceEmployee getEmployee(int id) {
@@ -89,5 +94,34 @@ public class EmployeeService {
                 })
                 .toList();
 
+    }
+
+    public List<ServiceEmployee> findEmployeesSortedPerSkillCount(){
+        return ServiceEmployeeMapper.toServiceEmployee(employeeRepository.findEmployeesSortedPerSkillCount());
+    }
+
+    public List<String> findEmployeeSkillSum(){
+        return employeeRepository.findEmployeeSkillSum();
+    }
+
+    public List<String> findEmployeeBySkillAndShowSkills(String skillName){
+        List<Employee> employeesWithSkill = employeeRepository.findEmployeesBySkillName(skillName);
+        ArrayList<String> result = new ArrayList<>();
+
+        employeesWithSkill.forEach(employee -> {
+            List<Knowledge> knowledges = knowledgeRepository.findByEmployeeId(employee.getId());
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(employee.getFirstname() + " " + employee.getLastname() + " (");
+            for (Knowledge k : knowledges){
+                sb.append(k.getSkill().getName() + ", ");
+            }
+            sb.setLength(sb.length() - 2);
+            sb.append(")");
+
+            result.add(sb.toString());
+        });
+
+        return result;
     }
 }

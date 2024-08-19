@@ -41,4 +41,8 @@ public class SkillService {
             skillRepository.deleteById(id);
         }
     }
+
+    public String findRarestSkill(){
+        return skillRepository.findRarestSkill();
+    }
 }

@@ -54,6 +54,23 @@ public class EmployeeController {
     public List<ApiEmployee> getNamesOfEmployeesOlderThanX(@PathVariable int age){
         return ApiEmployeeMapper.toApiEmployee(employeeService.findNamesOfEmployeesOlderThanX(age));
     }
+    @GetMapping("/sorted-by-skill-count")
+    public List<ApiEmployee> getEmployeesSortedPerSkillCount(){
+        //bad weil man skills nicht im apiEmployee drin hat?
+        return ApiEmployeeMapper.toApiEmployee(employeeService.findEmployeesSortedPerSkillCount());
+    }
+
+    @GetMapping("/skill-sum")
+    public List<String> getEmployeeSkillSum(){
+        return employeeService.findEmployeeSkillSum();
+    }
+
+
+    @GetMapping("/skills-by-skill")
+    public List<String> getEmployeeBySkillAndShowSkills(@RequestParam(name = "skillName")String skillName){
+        return employeeService.findEmployeeBySkillAndShowSkills(skillName);
+    }
+
 
 }
 
