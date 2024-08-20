@@ -33,6 +33,6 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
             "        ON k.fk_skill = s.id ) subquery\n" +
             "WHERE rn = 1\n" +
             "ORDER BY  team_name", nativeQuery = true)
-    public List<String> test();
+    public List<String> findBestSkilledEmployeeInTeam();
 
 }

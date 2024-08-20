@@ -130,7 +130,7 @@ public class TeamService {
         return result;
     }
 
-    public List<String> test(){
-        return teamRepository.test();
+    public List<String> findBestSkilledEmployeeInTeam(){
+        return teamRepository.findBestSkilledEmployeeInTeam();
     }
 }

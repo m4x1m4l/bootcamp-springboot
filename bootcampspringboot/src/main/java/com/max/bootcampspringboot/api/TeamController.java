@@ -67,7 +67,7 @@ public class TeamController {
     }
 
     @GetMapping("/test")
-    public List<String> getTest(){
-        return teamService.test();
+    public List<String> getBestSkilledEmployeeInTeam(){
+        return teamService.findBestSkilledEmployeeInTeam();
     }
 }
