@@ -56,4 +56,9 @@ public class TeamController {
         return teamService.findSmallestTeams();
     }
 
+    @GetMapping("/team-lead-member-count")
+    public List<String> getTeamLeadAndTeamMemberCount(){
+        return teamService.findTeamLeadAndTeamMemberCount();
+    }
+
 }

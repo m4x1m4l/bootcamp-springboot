@@ -46,4 +46,9 @@ public class SkillController {
         return skillService.findRarestSkill();
     }
 
+    @GetMapping("/avg-skill")
+    public List<String> getAverageSkillPerSkill(){
+        return skillService.findAverageSkillPerSkill();
+    }
+
 }
