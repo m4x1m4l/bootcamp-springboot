@@ -9,6 +9,7 @@ import com.max.bootcampspringboot.service.model.ServiceTeam;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -110,5 +111,26 @@ public class TeamService {
                 }
         );
         return result;
+    }
+
+    public List<String> findEmployeesInTeamSameBirthdayMonthAsTeamLead(){
+
+        List<String> result = new ArrayList<>();
+        List<Team> teams = teamRepository.findAll();
+        teams.forEach(team -> {
+            LocalDate teamLeadBirthdate = team.getTeamLead().getBirthdate();
+            team.getEmployees().forEach(employee -> {
+                if (employee.getBirthdate().getMonth() == teamLeadBirthdate.getMonth() && team.getTeamLead().getId() != employee.getId()){
+                    result.add(employee.getFirstname()
+                            + " " + employee.getLastname() + ", " + team.getName() + ", " + team.getTeamLead().getFirstname()
+                            + " " + team.getTeamLead().getLastname() + ", " + employee.getBirthdate() + ", " + team.getTeamLead().getBirthdate());
+                }
+            });
+        });
+        return result;
+    }
+
+    public List<String> test(){
+        return teamRepository.test();
     }
 }

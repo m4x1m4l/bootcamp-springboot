@@ -137,4 +137,25 @@ public class EmployeeService {
         });
         return result;
     }
+
+    public List<String> findNameAndSkillOfEmployeesWithMoreThanXSkills(int skillCount){
+        List<Employee> employees = employeeRepository.findAll();
+        List<String> result = new ArrayList<>();
+
+        employees = employees.stream().filter(employee -> employee.getKnowledges().size() > skillCount).toList();
+
+        employees.forEach(employee -> {
+            StringBuilder sb = new StringBuilder();
+            sb.append("(");
+            employee.getKnowledges().forEach(knowledge ->{
+                sb.append(knowledge.getSkill().getName());
+                sb.append(", ");
+            });
+            sb.setLength(sb.length() - 2);
+            sb.append(")");
+            result.add(employee.getFirstname() + " " + employee.getLastname() + ", " + employee.getKnowledges().size() + ", " + sb.toString());
+        });
+
+        return result;
+    }
 }
