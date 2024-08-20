@@ -124,4 +124,17 @@ public class EmployeeService {
 
         return result;
     }
+
+    public List<String> findEmployeesByBirthYear(int birthYear){
+
+        List<Employee> employees = employeeRepository.findAll();
+        employees = employees.stream().filter(employee ->
+            employee.getBirthdate().getYear() == birthYear
+        ).toList();
+        List<String> result = new ArrayList<>();
+        employees.forEach(employee -> {
+            result.add(employee.getFirstname() + " " + employee.getLastname() + " (" + employee.getBirthdate() + ")");
+        });
+        return result;
+    }
 }

@@ -45,4 +45,8 @@ public class SkillService {
     public String findRarestSkill(){
         return skillRepository.findRarestSkill();
     }
+
+    public List<String> findAverageSkillPerSkill(){
+        return skillRepository.findAverageSkillPerSkill();
+    }
 }

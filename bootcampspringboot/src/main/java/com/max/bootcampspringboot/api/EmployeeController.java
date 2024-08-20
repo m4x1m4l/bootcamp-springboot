@@ -71,6 +71,11 @@ public class EmployeeController {
         return employeeService.findEmployeeBySkillAndShowSkills(skillName);
     }
 
+    @GetMapping("/by-birth-year/{birthYear}")
+    public List<String> getEmployeesByBirthYear(@PathVariable int birthYear){
+        return employeeService.findEmployeesByBirthYear(birthYear);
+    }
+
 
 }
 

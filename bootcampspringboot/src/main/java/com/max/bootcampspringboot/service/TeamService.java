@@ -101,4 +101,14 @@ public class TeamService {
 
         return result;
     }
+
+    public List<String> findTeamLeadAndTeamMemberCount(){
+        List<Team> teams = teamRepository.findAll();
+        List<String> result = new ArrayList<>();
+        teams.forEach(team -> {
+            result.add(team.getName() + ", " + team.getTeamLead().getFirstname() + " " + team.getTeamLead().getLastname() + ", " + team.getEmployees().size());
+                }
+        );
+        return result;
+    }
 }
