@@ -3,6 +3,7 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiEmployeeMapper;
 import com.max.bootcampspringboot.api.model.ApiEmployee;
 import com.max.bootcampspringboot.service.EmployeeService;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +21,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ApiEmployee getEmployee(@PathVariable int id){
+    public ApiEmployee getEmployee(@PathVariable @Min(value = 1, message = "{id.min}") int id){
         return ApiEmployeeMapper.toApiEmployee(employeeService.getEmployee(id));
     }
 
@@ -40,7 +41,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable int id){
+    public ResponseEntity<String> deleteEmployee(@PathVariable @Min(value = 1, message = "{id.min}") int id){
         ApiEmployee temp =ApiEmployeeMapper.toApiEmployee(employeeService.getEmployee(id));
 
         if (temp == null) throw new RuntimeException("Employee id not found");

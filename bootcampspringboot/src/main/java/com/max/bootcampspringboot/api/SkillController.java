@@ -3,6 +3,7 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiSkillMapper;
 import com.max.bootcampspringboot.api.model.ApiSkill;
 import com.max.bootcampspringboot.service.SkillService;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,7 @@ public class SkillController {
     }
 
     @GetMapping("/{id}")
-    public ApiSkill getSkill(@PathVariable int id){
+    public ApiSkill getSkill(@PathVariable @Min(value = 1, message = "{id.min}")int id){
         return ApiSkillMapper.toApiSkill(skillService.getSkill(id));
     }
 
@@ -41,7 +42,7 @@ public class SkillController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSkill(@PathVariable int id){
+    public ResponseEntity<String> deleteSkill(@PathVariable @Min(value = 1, message = "{id.min}") int id){
         ApiSkill temp = ApiSkillMapper.toApiSkill(skillService.getSkill(id));
 
         if (temp == null) throw new RuntimeException("Skill id not found");

@@ -3,6 +3,7 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiTeamMapper;
 import com.max.bootcampspringboot.api.model.ApiTeam;
 import com.max.bootcampspringboot.service.TeamService;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class TeamController {
     }
 
     @GetMapping("/{id}")
-    public ApiTeam getTeam(@PathVariable int id){
+    public ApiTeam getTeam(@PathVariable @Min(value = 1, message = "{id.min}")int id){
         return ApiTeamMapper.toApiTeam(teamService.getTeam(id));
     }
 
@@ -39,7 +40,7 @@ public class TeamController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTeam(@PathVariable int id){
+    public ResponseEntity<String> deleteTeam(@PathVariable @Min(value = 1, message = "{id.min}")int id){
         ApiTeam temp = ApiTeamMapper.toApiTeam(teamService.getTeam(id));
 
         if (temp == null) throw new RuntimeException("Team id not found");

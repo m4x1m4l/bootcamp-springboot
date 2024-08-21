@@ -3,6 +3,7 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiKnowledgeMapper;
 import com.max.bootcampspringboot.api.model.ApiKnowledge;
 import com.max.bootcampspringboot.service.KnowledgeService;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +20,12 @@ public class KnowledgeController {
     }
 
     @GetMapping("/{employeeId}/{skillId}")
-    public ApiKnowledge getKnowledge(@PathVariable int employeeId, @PathVariable int skillId){
+    public ApiKnowledge getKnowledge(@PathVariable @Min(value = 1, message = "{id.min}") int employeeId, @Min(value = 1, message = "{id.min}") @PathVariable int skillId){
         return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getKnowledge(employeeId, skillId));
     }
 
     @GetMapping("/{employeeId}")
-    List<ApiKnowledge> getAllByEmployeeId(@PathVariable int employeeId){
+    List<ApiKnowledge> getAllByEmployeeId(@PathVariable @Min(value = 1, message = "{id.min}") int employeeId){
         return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getAllKnowledgesByEmployeeId(employeeId));
     }
 
@@ -40,7 +41,7 @@ public class KnowledgeController {
     }
 
     @DeleteMapping("/{employeeId}/{skillId}")
-    public ResponseEntity<String> deleteKnowledge(@PathVariable int employeeId, @PathVariable int skillId){
+    public ResponseEntity<String> deleteKnowledge(@PathVariable @Min(value = 1, message = "{id.min}")int employeeId, @Min(value = 1, message = "{id.min}")@PathVariable int skillId){
         ApiKnowledge temp = ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getKnowledge(employeeId, skillId));
 
         if (temp == null) throw new RuntimeException("Employee id not found");
