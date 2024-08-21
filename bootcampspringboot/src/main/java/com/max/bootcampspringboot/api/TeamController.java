@@ -3,6 +3,8 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiTeamMapper;
 import com.max.bootcampspringboot.api.model.ApiTeam;
 import com.max.bootcampspringboot.service.TeamService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +29,8 @@ public class TeamController {
     }
 
     @PostMapping
-    public ApiTeam addTeam(@RequestBody ApiTeam team){
-        return ApiTeamMapper.toApiTeam(teamService.addTeam(ApiTeamMapper.toServiceTeam(team)));
+    public ResponseEntity<ApiTeam> addTeam(@RequestBody ApiTeam team){
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiTeamMapper.toApiTeam(teamService.addTeam(ApiTeamMapper.toServiceTeam(team))));
     }
 
     @PutMapping
@@ -37,8 +39,14 @@ public class TeamController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTeam(@PathVariable int id){
+    public ResponseEntity<String> deleteTeam(@PathVariable int id){
+        ApiTeam temp = ApiTeamMapper.toApiTeam(teamService.getTeam(id));
+
+        if (temp == null) throw new RuntimeException("Team id not found");
         teamService.deleteTeam(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+
     }
 
     @GetMapping("/with-more-than-employees/{employeeCount}")

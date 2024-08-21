@@ -1,6 +1,13 @@
 package com.max.bootcampspringboot.api.model;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 public class ApiKnowledge {
+    @NotNull
+    @Min(value = 0, message = "Knowledge experienceLevel must be at least 0")
+    @Max(value = 10, message = "Knowledge experienceLevel must be at most 10")
     private int experienceLevel;
 
     private int employeeId;

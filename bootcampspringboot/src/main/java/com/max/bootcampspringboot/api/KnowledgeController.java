@@ -3,6 +3,8 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiKnowledgeMapper;
 import com.max.bootcampspringboot.api.model.ApiKnowledge;
 import com.max.bootcampspringboot.service.KnowledgeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +29,9 @@ public class KnowledgeController {
     }
 
     @PostMapping
-    public ApiKnowledge addKnowledgeByEmployeeId(@RequestBody ApiKnowledge knowledge){
-        return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.addKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge)));
+    public ResponseEntity<ApiKnowledge> addKnowledgeByEmployeeId(@RequestBody ApiKnowledge knowledge){
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiKnowledgeMapper.
+                toApiKnowledge(knowledgeService.addKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge))));
     }
 
     @PutMapping
@@ -37,7 +40,13 @@ public class KnowledgeController {
     }
 
     @DeleteMapping("/{employeeId}/{skillId}")
-    public void deleteKnowledge(@PathVariable int employeeId, @PathVariable int skillId){
-        knowledgeService.deleteSkill(employeeId, skillId);
+    public ResponseEntity<String> deleteKnowledge(@PathVariable int employeeId, @PathVariable int skillId){
+        ApiKnowledge temp = ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getKnowledge(employeeId, skillId));
+
+        if (temp == null) throw new RuntimeException("Employee id not found");
+        knowledgeService.deleteKnowledge(employeeId, skillId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+
     }
 }

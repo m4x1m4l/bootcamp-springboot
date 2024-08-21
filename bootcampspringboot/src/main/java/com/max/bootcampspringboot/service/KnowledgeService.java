@@ -39,7 +39,7 @@ public class KnowledgeService {
         return ServiceKnowledgeMapper.toServiceKnowledge(knowledgeRepository.save(ServiceKnowledgeMapper.toKnowledge(oldKnowledge)));
     }
 
-    public void deleteSkill(int employeeId, int skillId) {
+    public void deleteKnowledge(int employeeId, int skillId) {
         KnowledgeId knowledgeId = new KnowledgeId(employeeId, skillId);
         if(knowledgeRepository.existsById(knowledgeId)){
             knowledgeRepository.deleteById(knowledgeId);
