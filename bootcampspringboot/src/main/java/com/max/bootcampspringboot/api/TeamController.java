@@ -3,15 +3,18 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiTeamMapper;
 import com.max.bootcampspringboot.api.model.ApiTeam;
 import com.max.bootcampspringboot.service.TeamService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/teams")
+@Validated
 public class TeamController {
     private final TeamService teamService;
 
@@ -30,12 +33,12 @@ public class TeamController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiTeam> addTeam(@RequestBody ApiTeam team){
+    public ResponseEntity<ApiTeam> addTeam(@RequestBody @Valid ApiTeam team){
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiTeamMapper.toApiTeam(teamService.addTeam(ApiTeamMapper.toServiceTeam(team))));
     }
 
     @PutMapping
-    public ApiTeam updateTeam(@RequestBody ApiTeam team){
+    public ApiTeam updateTeam(@RequestBody @Valid ApiTeam team){
         return ApiTeamMapper.toApiTeam(teamService.updateTeam(ApiTeamMapper.toServiceTeam(team)));
     }
 

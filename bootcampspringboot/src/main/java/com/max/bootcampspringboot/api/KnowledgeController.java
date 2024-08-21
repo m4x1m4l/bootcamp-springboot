@@ -3,15 +3,18 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiKnowledgeMapper;
 import com.max.bootcampspringboot.api.model.ApiKnowledge;
 import com.max.bootcampspringboot.service.KnowledgeService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/knowledges")
+@Validated
 public class KnowledgeController {
     private final KnowledgeService knowledgeService;
 
@@ -30,13 +33,13 @@ public class KnowledgeController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiKnowledge> addKnowledgeByEmployeeId(@RequestBody ApiKnowledge knowledge){
+    public ResponseEntity<ApiKnowledge> addKnowledgeByEmployeeId(@RequestBody @Valid ApiKnowledge knowledge){
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiKnowledgeMapper.
                 toApiKnowledge(knowledgeService.addKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge))));
     }
 
     @PutMapping
-    public ApiKnowledge updateKnowledge(@RequestBody ApiKnowledge knowledge){
+    public ApiKnowledge updateKnowledge(@RequestBody @Valid ApiKnowledge knowledge){
         return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.updateKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge)));
     }
 

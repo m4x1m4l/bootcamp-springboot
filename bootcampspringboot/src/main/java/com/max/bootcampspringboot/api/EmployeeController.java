@@ -3,6 +3,7 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiEmployeeMapper;
 import com.max.bootcampspringboot.api.model.ApiEmployee;
 import com.max.bootcampspringboot.service.EmployeeService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +32,12 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiEmployee> addEmployee(@RequestBody ApiEmployee employee){
+    public ResponseEntity<ApiEmployee> addEmployee(@RequestBody @Valid ApiEmployee employee){
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiEmployeeMapper.toApiEmployee(employeeService.addEmployee(ApiEmployeeMapper.toServiceEmployee(employee))));
     }
 
     @PutMapping
-    public ApiEmployee updateEmployee(@RequestBody ApiEmployee employee){
+    public ApiEmployee updateEmployee(@RequestBody @Valid ApiEmployee employee){
         return ApiEmployeeMapper.toApiEmployee(employeeService.updateEmployee(ApiEmployeeMapper.toServiceEmployee(employee)));
     }
 

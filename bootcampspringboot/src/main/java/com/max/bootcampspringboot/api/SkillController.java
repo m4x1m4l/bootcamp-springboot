@@ -3,6 +3,7 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiSkillMapper;
 import com.max.bootcampspringboot.api.model.ApiSkill;
 import com.max.bootcampspringboot.service.SkillService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,12 @@ public class SkillController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiSkill> addSkill( @RequestBody ApiSkill skill){
+    public ResponseEntity<ApiSkill> addSkill( @RequestBody @Valid ApiSkill skill){
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiSkillMapper.toApiSkill(skillService.addSkill(ApiSkillMapper.toServiceSkill(skill))));
     }
 
     @PutMapping
-    public ApiSkill updateSkill(@RequestBody ApiSkill skill){
+    public ApiSkill updateSkill(@RequestBody @Valid ApiSkill skill){
         return ApiSkillMapper.toApiSkill(skillService.updateSkill(ApiSkillMapper.toServiceSkill(skill)));
     }
 
