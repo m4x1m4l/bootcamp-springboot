@@ -21,20 +21,26 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final TeamRepository teamRepository;
     private final KnowledgeRepository knowledgeRepository;
+    private final TrumpCiteService trumpCiteService;
 
-    public EmployeeService(EmployeeRepository employeeRepository, TeamRepository teamRepository, KnowledgeRepository knowledgeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, TeamRepository teamRepository,
+                           KnowledgeRepository knowledgeRepository, TrumpCiteService trumpCiteService) {
         this.employeeRepository = employeeRepository;
         this.teamRepository = teamRepository;
         this.knowledgeRepository = knowledgeRepository;
+        this.trumpCiteService = trumpCiteService;
     }
 
     public ServiceEmployee getEmployee(int id) {
+        addTrumpQuoteIfNotExist(id);
         return ServiceEmployeeMapper.toServiceEmployee(this.employeeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id)));
     }
 
     public List<ServiceEmployee> getAllEmployees() {
-        return ServiceEmployeeMapper.toServiceEmployee( this.employeeRepository.findAll());
+        List<Employee> employees = this.employeeRepository.findAll();
+        employees.forEach(e -> addTrumpQuoteIfNotExist(e.getId()));
+        return ServiceEmployeeMapper.toServiceEmployee(employees);
     }
 
     public ServiceEmployee addEmployee(ServiceEmployee employee) {
@@ -157,5 +163,15 @@ public class EmployeeService {
         });
 
         return result;
+    }
+
+    public void addTrumpQuoteIfNotExist(int employeeId){
+        Employee e = employeeRepository.findById(employeeId).orElseThrow(() -> new RuntimeException("ID of Employee not found: " + employeeId));
+
+        if (e.getTrumpQuote() == null) {
+            e.setTrumpQuote(trumpCiteService.getApiResponse("https://api.whatdoestrumpthink.com/api/v1/quotes/random/"));
+            employeeRepository.save(e); //needs db change: ALTER TABLE employees ADD COLUMN trump_quote VARCHAR(400);
+        }
+
     }
 }

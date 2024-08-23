@@ -21,16 +21,20 @@ public class ApiEmployee {
     private LocalDate birthdate;
     @NotNull(message="Employee teamId must be given")
     private int teamId;
+
+    private String trumpQuote;
+
     public ApiEmployee() {
     }
 
-    public ApiEmployee(Integer id, String firstname, int teamId, LocalDate birthdate, String salutation, String lastname) {
+    public ApiEmployee(Integer id, String firstname, String lastname, String salutation, LocalDate birthdate, int teamId, String trumpQuote) {
         this.id = id;
         this.firstname = firstname;
-        this.teamId = teamId;
-        this.birthdate = birthdate;
-        this.salutation = salutation;
         this.lastname = lastname;
+        this.salutation = salutation;
+        this.birthdate = birthdate;
+        this.teamId = teamId;
+        this.trumpQuote = trumpQuote;
     }
 
     public int getTeamId() {
@@ -79,5 +83,13 @@ public class ApiEmployee {
 
     public void setSalutation(String salutation) {
         this.salutation = salutation;
+    }
+
+    public String getTrumpQuote() {
+        return trumpQuote;
+    }
+
+    public void setTrumpQuote(String trumpQuote) {
+        this.trumpQuote = trumpQuote;
     }
 }

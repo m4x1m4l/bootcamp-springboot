@@ -1,7 +1,6 @@
 package com.max.bootcampspringboot.service.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class ServiceEmployee {
     private Integer id;
@@ -13,16 +12,19 @@ public class ServiceEmployee {
 
     private int teamId;
 
+    private String trumpQuote;
+
     public ServiceEmployee() {
     }
 
-    public ServiceEmployee(Integer id, String firstname, String lastname, String salutation, LocalDate birthdate, int teamId) {
+    public ServiceEmployee(Integer id, String firstname, String lastname, String salutation, LocalDate birthdate, int teamId, String trumpQuote) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.salutation = salutation;
         this.birthdate = birthdate;
         this.teamId = teamId;
+        this.trumpQuote = trumpQuote;
     }
 
     public Integer getId() {
@@ -71,5 +73,13 @@ public class ServiceEmployee {
 
     public void setTeamId(int teamId) {
         this.teamId = teamId;
+    }
+
+    public String getTrumpQuote() {
+        return trumpQuote;
+    }
+
+    public void setTrumpQuote(String trumpQuote) {
+        this.trumpQuote = trumpQuote;
     }
 }
