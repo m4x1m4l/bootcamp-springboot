@@ -24,10 +24,13 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Knowledge> knowledges;
 
+    @Column(name = "trump_quote")
+    private String trumpQuote;
+
     public Employee() {
     }
 
-    public Employee(Integer id, String firstname, String lastname, String salutation, LocalDate birthdate, Team team, List<Knowledge> knowledges) {
+    public Employee(Integer id, String firstname, String lastname, String salutation, LocalDate birthdate, Team team, List<Knowledge> knowledges, String trumpQuote) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -35,6 +38,7 @@ public class Employee {
         this.birthdate = birthdate;
         this.team = team;
         this.knowledges = knowledges;
+        this.trumpQuote = trumpQuote;
     }
 
     public Integer getId() {
@@ -91,5 +95,13 @@ public class Employee {
 
     public void setKnowledges(List<Knowledge> knowledges) {
         this.knowledges = knowledges;
+    }
+
+    public String getTrumpQuote() {
+        return trumpQuote;
+    }
+
+    public void setTrumpQuote(String trumpQuote) {
+        this.trumpQuote = trumpQuote;
     }
 }

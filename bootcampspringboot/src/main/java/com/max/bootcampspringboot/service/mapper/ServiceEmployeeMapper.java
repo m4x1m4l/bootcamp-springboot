@@ -14,6 +14,7 @@ public class ServiceEmployeeMapper {
         serviceEmployee.setLastname(employee.getLastname());
         serviceEmployee.setFirstname(employee.getFirstname());
         serviceEmployee.setTeamId(employee.getTeam().getId());
+        serviceEmployee.setTrumpQuote(employee.getTrumpQuote());
         return serviceEmployee;
     }
 
@@ -28,6 +29,7 @@ public class ServiceEmployeeMapper {
         employee.setId(serviceEmployee.getId());
         employee.setLastname(serviceEmployee.getLastname());
         employee.setFirstname(serviceEmployee.getFirstname());
+        employee.setTrumpQuote(serviceEmployee.getTrumpQuote());
         //not setting team
         //gets set in add and update EmployeeService methods
         return employee;
