@@ -2,7 +2,6 @@ package com.max.bootcampspringboot.api;
 
 import com.max.bootcampspringboot.api.mapper.ApiEmployeeMapper;
 import com.max.bootcampspringboot.api.model.ApiEmployee;
-import com.max.bootcampspringboot.exception.NotFoundException;
 import com.max.bootcampspringboot.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +26,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ApiEmployee addEmployee(@RequestBody ApiEmployee employee) throws NotFoundException {
+    public ApiEmployee addEmployee(@RequestBody ApiEmployee employee) {
         return ApiEmployeeMapper.toApiEmployee(employeeService.addEmployee(ApiEmployeeMapper.toServiceEmployee(employee)));
     }
 

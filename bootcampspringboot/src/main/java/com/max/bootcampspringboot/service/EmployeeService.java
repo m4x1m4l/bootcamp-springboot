@@ -4,7 +4,6 @@ import com.max.bootcampspringboot.data.entity.Employee;
 import com.max.bootcampspringboot.data.entity.Team;
 import com.max.bootcampspringboot.data.repository.EmployeeRepository;
 import com.max.bootcampspringboot.data.repository.TeamRepository;
-import com.max.bootcampspringboot.exception.NotFoundException;
 import com.max.bootcampspringboot.service.mapper.ServiceEmployeeMapper;
 import com.max.bootcampspringboot.service.model.ServiceEmployee;
 import jakarta.persistence.EntityNotFoundException;
@@ -31,12 +30,12 @@ public class EmployeeService {
         return ServiceEmployeeMapper.toServiceEmployee( this.employeeRepository.findAll());
     }
 
-    public ServiceEmployee addEmployee(ServiceEmployee employee) throws NotFoundException {
+    public ServiceEmployee addEmployee(ServiceEmployee employee) {
 
         Employee employeeToSave = ServiceEmployeeMapper.toEmployee(employee);
         //add Team
         Team teamOfEmployee = teamRepository.findById(employee.getTeamId())
-                .orElseThrow(() -> new NotFoundException("Team ID of Employee not found: " + employee.getTeamId()));
+                .orElseThrow(() -> new EntityNotFoundException("Team ID of Employee not found: " + employee.getTeamId()));
         employeeToSave.setTeam(teamOfEmployee);
 
         return ServiceEmployeeMapper.toServiceEmployee( this.employeeRepository.save(employeeToSave));
