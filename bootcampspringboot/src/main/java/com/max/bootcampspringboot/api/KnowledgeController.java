@@ -3,12 +3,18 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiKnowledgeMapper;
 import com.max.bootcampspringboot.api.model.ApiKnowledge;
 import com.max.bootcampspringboot.service.KnowledgeService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/knowledges")
+@Validated
 public class KnowledgeController {
     private final KnowledgeService knowledgeService;
 
@@ -17,27 +23,34 @@ public class KnowledgeController {
     }
 
     @GetMapping("/{employeeId}/{skillId}")
-    public ApiKnowledge getKnowledge(@PathVariable int employeeId, @PathVariable int skillId){
+    public ApiKnowledge getKnowledge(@PathVariable @Min(value = 1, message = "{id.min}") int employeeId, @Min(value = 1, message = "{id.min}") @PathVariable int skillId){
         return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getKnowledge(employeeId, skillId));
     }
 
     @GetMapping("/{employeeId}")
-    List<ApiKnowledge> getAllByEmployeeId(@PathVariable int employeeId){
+    List<ApiKnowledge> getAllByEmployeeId(@PathVariable @Min(value = 1, message = "{id.min}") int employeeId){
         return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getAllKnowledgesByEmployeeId(employeeId));
     }
 
     @PostMapping
-    public ApiKnowledge addKnowledgeByEmployeeId(@RequestBody ApiKnowledge knowledge){
-        return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.addKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge)));
+    public ResponseEntity<ApiKnowledge> addKnowledgeByEmployeeId(@RequestBody @Valid ApiKnowledge knowledge){
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiKnowledgeMapper.
+                toApiKnowledge(knowledgeService.addKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge))));
     }
 
     @PutMapping
-    public ApiKnowledge updateKnowledge(@RequestBody ApiKnowledge knowledge){
+    public ApiKnowledge updateKnowledge(@RequestBody @Valid ApiKnowledge knowledge){
         return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.updateKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge)));
     }
 
     @DeleteMapping("/{employeeId}/{skillId}")
-    public void deleteKnowledge(@PathVariable int employeeId, @PathVariable int skillId){
-        knowledgeService.deleteSkill(employeeId, skillId);
+    public ResponseEntity<String> deleteKnowledge(@PathVariable @Min(value = 1, message = "{id.min}")int employeeId, @Min(value = 1, message = "{id.min}")@PathVariable int skillId){
+        ApiKnowledge temp = ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getKnowledge(employeeId, skillId));
+
+        if (temp == null) throw new RuntimeException("Employee id not found");
+        knowledgeService.deleteKnowledge(employeeId, skillId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+
     }
 }

@@ -1,15 +1,25 @@
 package com.max.bootcampspringboot.api.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class ApiEmployee {
     private Integer id;
-
+    @NotBlank(message = "firstname should not be blank")
+    @Size(min = 1, max = 50, message="Employee firstname must be between 1 and 50 characters")
     private String firstname;
+    @NotBlank(message = "lastname should not be blank")
+    @Size(min = 1, max = 50, message="Employee lastname must be between 1 and 50 characters")
     private String lastname;
+    @NotBlank(message = "salutation should not be blank")
+    @Size(min = 1, max = 20, message="Employee salutation must be between 1 and 20 characters")
     private String salutation;
+    @NotNull(message="Employee birtDate must be given")
     private LocalDate birthdate;
-
+    @NotNull(message="Employee teamId must be given")
     private int teamId;
     public ApiEmployee() {
     }

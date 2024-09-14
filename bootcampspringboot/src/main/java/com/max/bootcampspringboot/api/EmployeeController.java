@@ -3,12 +3,18 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiEmployeeMapper;
 import com.max.bootcampspringboot.api.model.ApiEmployee;
 import com.max.bootcampspringboot.service.EmployeeService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
+@Validated
 public class EmployeeController {
     private final EmployeeService employeeService;
     public EmployeeController(EmployeeService employeeService) {
@@ -16,7 +22,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ApiEmployee getEmployee(@PathVariable int id){
+    public ApiEmployee getEmployee(@PathVariable @Min(value = 1, message = "{id.min}") int id){
         return ApiEmployeeMapper.toApiEmployee(employeeService.getEmployee(id));
     }
 
@@ -26,18 +32,23 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ApiEmployee addEmployee(@RequestBody ApiEmployee employee){
-        return ApiEmployeeMapper.toApiEmployee(employeeService.addEmployee(ApiEmployeeMapper.toServiceEmployee(employee)));
+    public ResponseEntity<ApiEmployee> addEmployee(@RequestBody @Valid ApiEmployee employee){
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiEmployeeMapper.toApiEmployee(employeeService.addEmployee(ApiEmployeeMapper.toServiceEmployee(employee))));
     }
 
     @PutMapping
-    public ApiEmployee updateEmployee(@RequestBody ApiEmployee employee){
+    public ApiEmployee updateEmployee(@RequestBody @Valid ApiEmployee employee){
         return ApiEmployeeMapper.toApiEmployee(employeeService.updateEmployee(ApiEmployeeMapper.toServiceEmployee(employee)));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable int id){
+    public ResponseEntity<String> deleteEmployee(@PathVariable @Min(value = 1, message = "{id.min}") int id){
+        ApiEmployee temp =ApiEmployeeMapper.toApiEmployee(employeeService.getEmployee(id));
+
+        if (temp == null) throw new RuntimeException("Employee id not found");
         employeeService.deleteEmployee(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }
 
     @GetMapping("/firstnames")

@@ -3,12 +3,18 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiTeamMapper;
 import com.max.bootcampspringboot.api.model.ApiTeam;
 import com.max.bootcampspringboot.service.TeamService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/teams")
+@Validated
 public class TeamController {
     private final TeamService teamService;
 
@@ -17,7 +23,7 @@ public class TeamController {
     }
 
     @GetMapping("/{id}")
-    public ApiTeam getTeam(@PathVariable int id){
+    public ApiTeam getTeam(@PathVariable @Min(value = 1, message = "{id.min}")int id){
         return ApiTeamMapper.toApiTeam(teamService.getTeam(id));
     }
 
@@ -27,18 +33,24 @@ public class TeamController {
     }
 
     @PostMapping
-    public ApiTeam addTeam(@RequestBody ApiTeam team){
-        return ApiTeamMapper.toApiTeam(teamService.addTeam(ApiTeamMapper.toServiceTeam(team)));
+    public ResponseEntity<ApiTeam> addTeam(@RequestBody @Valid ApiTeam team){
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiTeamMapper.toApiTeam(teamService.addTeam(ApiTeamMapper.toServiceTeam(team))));
     }
 
     @PutMapping
-    public ApiTeam updateTeam(@RequestBody ApiTeam team){
+    public ApiTeam updateTeam(@RequestBody @Valid ApiTeam team){
         return ApiTeamMapper.toApiTeam(teamService.updateTeam(ApiTeamMapper.toServiceTeam(team)));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTeam(@PathVariable int id){
+    public ResponseEntity<String> deleteTeam(@PathVariable @Min(value = 1, message = "{id.min}")int id){
+        ApiTeam temp = ApiTeamMapper.toApiTeam(teamService.getTeam(id));
+
+        if (temp == null) throw new RuntimeException("Team id not found");
         teamService.deleteTeam(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+
     }
 
     @GetMapping("/with-more-than-employees/{employeeCount}")

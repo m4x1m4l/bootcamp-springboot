@@ -3,6 +3,11 @@ package com.max.bootcampspringboot.api;
 import com.max.bootcampspringboot.api.mapper.ApiSkillMapper;
 import com.max.bootcampspringboot.api.model.ApiSkill;
 import com.max.bootcampspringboot.service.SkillService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/skills")
+@Validated
 public class SkillController {
     private final SkillService skillService;
     public SkillController(SkillService skillService) {
@@ -17,7 +23,7 @@ public class SkillController {
     }
 
     @GetMapping("/{id}")
-    public ApiSkill getSkill(@PathVariable int id){
+    public ApiSkill getSkill(@PathVariable @Min(value = 1, message = "{id.min}")int id){
         return ApiSkillMapper.toApiSkill(skillService.getSkill(id));
     }
 
@@ -27,18 +33,24 @@ public class SkillController {
     }
 
     @PostMapping
-    public ApiSkill addSkill(@RequestBody ApiSkill skill){
-        return ApiSkillMapper.toApiSkill(skillService.addSkill(ApiSkillMapper.toServiceSkill(skill)));
+    public ResponseEntity<ApiSkill> addSkill( @RequestBody @Valid ApiSkill skill){
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiSkillMapper.toApiSkill(skillService.addSkill(ApiSkillMapper.toServiceSkill(skill))));
     }
 
     @PutMapping
-    public ApiSkill updateSkill(@RequestBody ApiSkill skill){
+    public ApiSkill updateSkill(@RequestBody @Valid ApiSkill skill){
         return ApiSkillMapper.toApiSkill(skillService.updateSkill(ApiSkillMapper.toServiceSkill(skill)));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSkill(@PathVariable int id){
+    public ResponseEntity<String> deleteSkill(@PathVariable @Min(value = 1, message = "{id.min}") int id){
+        ApiSkill temp = ApiSkillMapper.toApiSkill(skillService.getSkill(id));
+
+        if (temp == null) throw new RuntimeException("Skill id not found");
         skillService.deleteSkill(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+
     }
 
     @GetMapping("/rarest-skill")
