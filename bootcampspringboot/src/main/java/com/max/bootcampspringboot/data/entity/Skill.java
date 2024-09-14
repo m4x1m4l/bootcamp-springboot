@@ -2,6 +2,8 @@ package com.max.bootcampspringboot.data.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "skills")
 public class Skill {
@@ -10,6 +12,10 @@ public class Skill {
     private Integer id;
 
     private String name;
+
+    @OneToMany(mappedBy = "skill")
+    private List<Knowledge> knowledges;
+
 
     public Skill() {
     }
