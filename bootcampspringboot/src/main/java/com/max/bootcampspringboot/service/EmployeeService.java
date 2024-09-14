@@ -9,6 +9,8 @@ import com.max.bootcampspringboot.service.model.ServiceEmployee;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Service
@@ -66,5 +68,28 @@ public class EmployeeService {
         if (employeeRepository.existsById(id)) {
             employeeRepository.deleteById(id);
         }
+    }
+
+    public List<String> findFirstnameByTeamName(String teamName){
+        return employeeRepository.findFirstnameByTeamName(teamName);
+    }
+
+    public List<String> findEmployeeCountPerTeam(){
+        return employeeRepository.findEmployeeCountPerTeam();
+    }
+
+    public List<ServiceEmployee> findNamesOfEmployeesOlderThanX(int age){
+        List<ServiceEmployee> listEmployees = getAllEmployees();
+        return listEmployees.stream()
+                .filter(e -> {
+                    LocalDate birthdate = e.getBirthdate();
+                    if (birthdate == null) {
+                        return false;
+                    }
+                    int employeeAge = Period.between(birthdate, LocalDate.now()).getYears();
+                    return employeeAge >= age;
+                })
+                .toList();
+
     }
 }

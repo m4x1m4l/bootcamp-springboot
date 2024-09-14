@@ -41,4 +41,9 @@ public class TeamController {
         teamService.deleteTeam(id);
     }
 
+    @GetMapping("/with-more-than-employees/{employeeCount}")
+    public List<String> getTeamsWithMoreThanXEmployees(@PathVariable int employeeCount){
+        return teamService.findTeamsWithMoreThanXEmployees(employeeCount);
+    }
+
 }

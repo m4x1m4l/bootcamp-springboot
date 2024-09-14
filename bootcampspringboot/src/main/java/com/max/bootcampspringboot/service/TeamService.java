@@ -58,4 +58,8 @@ public class TeamService {
             teamRepository.deleteById(id);
         }
     }
+
+    public List<String> findTeamsWithMoreThanXEmployees(int employeeCount){
+        return teamRepository.findTeamsWithMoreThanXEmployees(employeeCount);
+    }
 }
