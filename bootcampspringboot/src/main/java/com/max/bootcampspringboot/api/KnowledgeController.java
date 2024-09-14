@@ -22,7 +22,7 @@ public class KnowledgeController {
     }
 
     @GetMapping("/{employeeId}")
-    List<ApiKnowledge> getAllByEmployeeId(@PathVariable int employeeId){
+    public List<ApiKnowledge> getAllByEmployeeId(@PathVariable int employeeId){
         return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.getAllKnowledgesByEmployeeId(employeeId));
     }
 

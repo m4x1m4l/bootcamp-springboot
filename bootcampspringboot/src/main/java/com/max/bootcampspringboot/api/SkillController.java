@@ -22,7 +22,7 @@ public class SkillController {
     }
 
     @GetMapping
-    List<ApiSkill> getAllSkills(){
+    public List<ApiSkill> getAllSkills(){
         return ApiSkillMapper.toApiSkill(skillService.getAllSkills());
     }
 

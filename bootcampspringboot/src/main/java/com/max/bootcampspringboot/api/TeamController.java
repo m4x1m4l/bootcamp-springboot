@@ -22,7 +22,7 @@ public class TeamController {
     }
 
     @GetMapping
-    List<ApiTeam> getAllTeams(){
+    public List<ApiTeam> getAllTeams(){
         return ApiTeamMapper.toApiTeam(teamService.getAllTeams());
     }
 
