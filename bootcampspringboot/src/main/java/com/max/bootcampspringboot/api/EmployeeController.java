@@ -20,7 +20,7 @@ public class EmployeeController {
         return ApiEmployeeMapper.toApiEmployee(employeeService.getEmployee(id));
     }
 
-    @GetMapping
+    @GetMapping("")
     List<ApiEmployee> getAllEmployees(){
         return ApiEmployeeMapper.toApiEmployee(employeeService.getAllEmployees());
     }
@@ -30,9 +30,9 @@ public class EmployeeController {
         return ApiEmployeeMapper.toApiEmployee(employeeService.addEmployee(ApiEmployeeMapper.toServiceEmployee(employee)));
     }
 
-    @PutMapping
-    public ApiEmployee updateEmployee(@RequestBody ApiEmployee employee){
-        return ApiEmployeeMapper.toApiEmployee(employeeService.updateEmployee(ApiEmployeeMapper.toServiceEmployee(employee)));
+    @PutMapping("/{employeeId}")
+    public ApiEmployee updateEmployee(int employeeId, @RequestBody ApiEmployee employee){
+        return ApiEmployeeMapper.toApiEmployee(employeeService.updateEmployee(employeeId, ApiEmployeeMapper.toServiceEmployee(employee)));
     }
 
     @DeleteMapping("/{id}")

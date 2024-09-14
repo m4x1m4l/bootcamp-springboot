@@ -31,7 +31,7 @@ public class KnowledgeService {
         return ServiceKnowledgeMapper.toServiceKnowledge(this.knowledgeRepository.save(ServiceKnowledgeMapper.toKnowledge(knowledge)));
     }
 
-    public ServiceKnowledge updateKnowledge(ServiceKnowledge knowledge){
+    public ServiceKnowledge updateKnowledge(int skillId, int employeeId, ServiceKnowledge knowledge){
         ServiceKnowledge oldKnowledge = getKnowledge(knowledge.getEmployeeId(), knowledge.getSkillId());
         oldKnowledge.setSkillId(knowledge.getSkillId());
         oldKnowledge.setEmployeeId(knowledge.getEmployeeId());

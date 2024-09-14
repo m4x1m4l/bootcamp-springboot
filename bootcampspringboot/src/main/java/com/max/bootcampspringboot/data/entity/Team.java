@@ -12,7 +12,7 @@ public class Team {
     private Integer id;
     private String name;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "teamlead_id")
     private Employee teamLead;
 

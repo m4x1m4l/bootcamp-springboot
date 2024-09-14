@@ -31,9 +31,9 @@ public class KnowledgeController {
         return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.addKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge)));
     }
 
-    @PutMapping
-    public ApiKnowledge updateKnowledge(@RequestBody ApiKnowledge knowledge){
-        return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.updateKnowledge(ApiKnowledgeMapper.toServiceKnowledge(knowledge)));
+    @PutMapping("/{employeeId}/{skillId}")
+    public ApiKnowledge updateKnowledge(@PathVariable int skillId, @PathVariable int employeeId, @RequestBody ApiKnowledge knowledge){
+        return ApiKnowledgeMapper.toApiKnowledge(knowledgeService.updateKnowledge(skillId, employeeId, ApiKnowledgeMapper.toServiceKnowledge(knowledge)));
     }
 
     @DeleteMapping("/{employeeId}/{skillId}")
