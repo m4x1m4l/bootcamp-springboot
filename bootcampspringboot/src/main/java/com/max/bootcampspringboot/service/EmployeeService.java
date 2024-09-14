@@ -34,11 +34,11 @@ public class EmployeeService {
 
         Employee employeeToSave = ServiceEmployeeMapper.toEmployee(employee);
         //add Team
-        Team teamOfEmployee = teamRepository.findById(employee.getTeamId())
-                .orElseThrow(() -> new EntityNotFoundException("Team ID of Employee not found: " + employee.getTeamId()));
+        Team teamOfEmployee = teamRepository.findById(employee.getTeam().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Team ID of Employee not found: " + employee.getTeam().getId()));
         employeeToSave.setTeam(teamOfEmployee);
 
-        return ServiceEmployeeMapper.toServiceEmployee( this.employeeRepository.save(employeeToSave));
+        return ServiceEmployeeMapper.toServiceEmployee(this.employeeRepository.save(employeeToSave));
     }
 
     public ServiceEmployee updateEmployee(int employeeId, ServiceEmployee employee) {
@@ -53,8 +53,8 @@ public class EmployeeService {
         employeeToSave.setSalutation(employee.getSalutation());
 
         //add Team
-        Team teamOfEmployee = teamRepository.findById(employee.getTeamId())
-                .orElseThrow(() -> new EntityNotFoundException("Team ID of Employee not found: " + employee.getTeamId()));
+        Team teamOfEmployee = teamRepository.findById(employee.getTeam().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Team ID of Employee not found: " + employee.getTeam().getId()));
 
         employeeToSave.setTeam(teamOfEmployee);
 

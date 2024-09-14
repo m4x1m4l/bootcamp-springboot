@@ -11,7 +11,7 @@ public class ApiTeamMapper {
         ApiTeam apiTeam = new ApiTeam();
         apiTeam.setId(serviceTeam.getId());
         apiTeam.setName(serviceTeam.getName());
-        apiTeam.setTeamleadId(serviceTeam.getTeamleadId());
+        apiTeam.setTeamleadId(serviceTeam.getTeamlead().getId());
         return apiTeam;
     }
 
@@ -23,7 +23,9 @@ public class ApiTeamMapper {
         ServiceTeam serviceTeam = new ServiceTeam();
         serviceTeam.setId(apiTeam.getId());
         serviceTeam.setName(apiTeam.getName());
-        serviceTeam.setTeamleadId(apiTeam.getTeamleadId());
+        //serviceTeam.setTeamleadId(apiTeam.getTeamleadId());
+        //teamleadid not set
+        //gets set in add and update method in TeamService
         return serviceTeam;
     }
 }

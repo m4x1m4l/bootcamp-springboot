@@ -28,10 +28,13 @@ public class KnowledgeService {
     }
 
     public ServiceKnowledge addKnowledge(ServiceKnowledge knowledge){
+
         return ServiceKnowledgeMapper.toServiceKnowledge(this.knowledgeRepository.save(ServiceKnowledgeMapper.toKnowledge(knowledge)));
     }
 
     public ServiceKnowledge updateKnowledge(int skillId, int employeeId, ServiceKnowledge knowledge){
+        if(skillId != knowledge.getSkillId() || employeeId != knowledge.getEmployeeId()) throw new RuntimeException("Id and Id in Object do not equal!");
+
         ServiceKnowledge oldKnowledge = getKnowledge(knowledge.getEmployeeId(), knowledge.getSkillId());
         oldKnowledge.setSkillId(knowledge.getSkillId());
         oldKnowledge.setEmployeeId(knowledge.getEmployeeId());

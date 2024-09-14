@@ -31,9 +31,9 @@ public class TeamService {
     }
 
     public ServiceTeam addTeam(ServiceTeam serviceTeam) {
-        Employee teamlead = employeeRepository.findById(serviceTeam.getTeamleadId())
+        Employee teamlead = employeeRepository.findById(serviceTeam.getTeamlead().getId())
                 .orElseThrow(
-                        () ->  new EntityNotFoundException("employee id (teamLead id) not found: " + serviceTeam.getTeamleadId()));
+                        () ->  new EntityNotFoundException("employee id (teamLead id) not found: " + serviceTeam.getTeamlead().getId()));
 
         Team teamToSave = ServiceTeamMapper.toTeam(serviceTeam);
         teamToSave.setTeamLead(teamlead);
@@ -46,8 +46,8 @@ public class TeamService {
         Team toSave = this.teamRepository.findById(serviceTeam.getId()).orElseThrow(() -> new RuntimeException("Team ID not found: " + serviceTeam.getId()));
         toSave.setName(serviceTeam.getName());
         //set Teamleader
-        Employee teamlead = employeeRepository.findById(serviceTeam.getTeamleadId()).orElseThrow(
-                () ->  new EntityNotFoundException("employee id (teamlead id) not found: " + serviceTeam.getTeamleadId()));
+        Employee teamlead = employeeRepository.findById(serviceTeam.getTeamlead().getId()).orElseThrow(
+                () ->  new EntityNotFoundException("employee id (teamlead id) not found: " + serviceTeam.getTeamlead().getId()));
         toSave.setTeamLead(teamlead);
 
         return ServiceTeamMapper.toServiceTeam(teamRepository.save(toSave));

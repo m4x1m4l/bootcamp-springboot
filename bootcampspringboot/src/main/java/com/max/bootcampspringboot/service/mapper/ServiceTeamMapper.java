@@ -10,7 +10,7 @@ public class ServiceTeamMapper {
         ServiceTeam serviceTeam = new ServiceTeam();
         serviceTeam.setId(team.getId());
         serviceTeam.setName(team.getName());
-        serviceTeam.setTeamleadId(team.getTeamLead().getId());
+        serviceTeam.setTeamlead(team.getTeamLead());
         return serviceTeam;
     }
 
@@ -22,8 +22,8 @@ public class ServiceTeamMapper {
         Team team = new Team();
         team.setId(serviceTeam.getId());
         team.setName(serviceTeam.getName());
-        //teamleadid not set
-        //gets set in add and update method in TeamService
+        team.setTeamLead(serviceTeam.getTeamlead());
+
         return team;
     }
 

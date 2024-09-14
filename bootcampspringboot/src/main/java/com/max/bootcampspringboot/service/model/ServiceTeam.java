@@ -1,18 +1,20 @@
 package com.max.bootcampspringboot.service.model;
 
+import com.max.bootcampspringboot.data.entity.Employee;
+
 public class ServiceTeam {
     private Integer id;
     private String name;
-    private int teamleadId;
+    private Employee teamlead;
 
 
     public ServiceTeam() {
     }
 
-    public ServiceTeam(Integer id, String name, int teamleadId) {
+    public ServiceTeam(Integer id, String name, Employee teamlead) {
         this.id = id;
         this.name = name;
-        this.teamleadId = teamleadId;
+        this.teamlead = teamlead;
     }
 
     public Integer getId() {
@@ -31,11 +33,11 @@ public class ServiceTeam {
         this.name = name;
     }
 
-    public int getTeamleadId() {
-        return teamleadId;
+    public Employee getTeamlead() {
+        return teamlead;
     }
 
-    public void setTeamleadId(int teamleadId) {
-        this.teamleadId = teamleadId;
+    public void setTeamlead(Employee teamlead) {
+        this.teamlead = teamlead;
     }
 }

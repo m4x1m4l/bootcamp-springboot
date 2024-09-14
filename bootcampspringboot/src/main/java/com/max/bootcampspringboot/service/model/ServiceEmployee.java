@@ -1,7 +1,8 @@
 package com.max.bootcampspringboot.service.model;
 
+import com.max.bootcampspringboot.data.entity.Team;
+
 import java.time.LocalDate;
-import java.util.List;
 
 public class ServiceEmployee {
     private Integer id;
@@ -11,18 +12,18 @@ public class ServiceEmployee {
     private String salutation;
     private LocalDate birthdate;
 
-    private int teamId;
+    private Team team;
 
     public ServiceEmployee() {
     }
 
-    public ServiceEmployee(Integer id, String firstname, String lastname, String salutation, LocalDate birthdate, int teamId) {
+    public ServiceEmployee(Integer id, String firstname, String lastname, String salutation, LocalDate birthdate, Team team) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.salutation = salutation;
         this.birthdate = birthdate;
-        this.teamId = teamId;
+        this.team = team;
     }
 
     public Integer getId() {
@@ -65,11 +66,11 @@ public class ServiceEmployee {
         this.birthdate = birthdate;
     }
 
-    public int getTeamId() {
-        return teamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamId(int teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

@@ -1,7 +1,6 @@
 package com.max.bootcampspringboot.api.mapper;
 
 import com.max.bootcampspringboot.api.model.ApiEmployee;
-import com.max.bootcampspringboot.data.entity.Employee;
 import com.max.bootcampspringboot.service.model.ServiceEmployee;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public class ApiEmployeeMapper {
         apiEmployee.setId(serviceEmployee.getId());
         apiEmployee.setLastname(serviceEmployee.getLastname());
         apiEmployee.setFirstname(serviceEmployee.getFirstname());
-        apiEmployee.setTeamId(serviceEmployee.getTeamId());
+        apiEmployee.setTeamId(serviceEmployee.getTeam().getId());
         return apiEmployee;
     }
     public static List<ApiEmployee> toApiEmployee(List<ServiceEmployee> employee) {
@@ -29,7 +28,9 @@ public class ApiEmployeeMapper {
         serviceEmployee.setId(apiEmployee.getId());
         serviceEmployee.setLastname(apiEmployee.getLastname());
         serviceEmployee.setFirstname(apiEmployee.getFirstname());
-        serviceEmployee.setTeamId(apiEmployee.getTeamId());
+        //serviceEmployee.setTeam(apiEmployee.getTeamId());
+        //not setting team
+        //gets set in add and update EmployeeService methods
         return serviceEmployee;
     }
 }
