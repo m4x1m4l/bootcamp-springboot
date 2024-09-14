@@ -14,5 +14,7 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
     @Query("SELECT t.name, COUNT(e) FROM Team t JOIN t.employees e GROUP BY t.name ORDER BY COUNT(e) DESC LIMIT 1")
     public String findLargestTeam();
 
+    @Query("SELECT s.name FROM Team t JOIN t.employees e JOIN e.knowledges k JOIN k.skill s")
+    public List<String> findSkillsInTeam(String skill);
 
 }

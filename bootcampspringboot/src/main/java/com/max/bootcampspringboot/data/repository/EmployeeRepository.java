@@ -27,4 +27,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query("SELECT e from Employee e JOIN e.knowledges k JOIN k.skill s WHERE s.name =:skillName")
     public List<Employee> findEmployeesBySkillName(@Param("skillName")String skillName);
 
+
+
 }

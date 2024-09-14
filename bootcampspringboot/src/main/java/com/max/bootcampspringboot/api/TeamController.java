@@ -61,4 +61,13 @@ public class TeamController {
         return teamService.findTeamLeadAndTeamMemberCount();
     }
 
+    @GetMapping("/employees-in-team-same-birthday-month-as-teamlead")
+    public List<String> getEmployeesInTeamSameBirthdayMonthAsTeamLead(){
+        return teamService.findEmployeesInTeamSameBirthdayMonthAsTeamLead();
+    }
+
+    @GetMapping("/test")
+    public List<String> getBestSkilledEmployeeInTeam(){
+        return teamService.findBestSkilledEmployeeInTeam();
+    }
 }

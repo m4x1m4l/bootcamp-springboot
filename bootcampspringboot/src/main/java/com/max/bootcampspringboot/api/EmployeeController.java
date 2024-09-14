@@ -76,6 +76,11 @@ public class EmployeeController {
         return employeeService.findEmployeesByBirthYear(birthYear);
     }
 
+    @GetMapping("/get-employees-with-more-than-x-skills/{skillCount}")
+    public List<String> getEmplfindNameAndSkillOfEmployeesWithMoreThanXSkillsoyeesByBirthYear(@PathVariable int skillCount){
+        return employeeService.findNameAndSkillOfEmployeesWithMoreThanXSkills(skillCount);
+    }
+
 
 }
 
