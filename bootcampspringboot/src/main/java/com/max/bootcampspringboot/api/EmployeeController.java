@@ -32,7 +32,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{employeeId}")
-    public ApiEmployee updateEmployee(int employeeId, @RequestBody ApiEmployee employee){
+    public ApiEmployee updateEmployee(@PathVariable int employeeId, @RequestBody ApiEmployee employee){
         return ApiEmployeeMapper.toApiEmployee(employeeService.updateEmployee(employeeId, ApiEmployeeMapper.toServiceEmployee(employee)));
     }
 

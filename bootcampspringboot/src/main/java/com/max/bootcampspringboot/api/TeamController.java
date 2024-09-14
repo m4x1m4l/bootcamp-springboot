@@ -31,9 +31,9 @@ public class TeamController {
         return ApiTeamMapper.toApiTeam(teamService.addTeam(ApiTeamMapper.toServiceTeam(team)));
     }
 
-    @PutMapping
-    public ApiTeam updateTeam(@RequestBody ApiTeam team){
-        return ApiTeamMapper.toApiTeam(teamService.updateTeam(ApiTeamMapper.toServiceTeam(team)));
+    @PutMapping("/{teamId}")
+    public ApiTeam updateTeam(@PathVariable int teamId, @RequestBody ApiTeam team){
+        return ApiTeamMapper.toApiTeam(teamService.updateTeam(teamId, ApiTeamMapper.toServiceTeam(team)));
     }
 
     @DeleteMapping("/{id}")

@@ -41,7 +41,8 @@ public class TeamService {
         return ServiceTeamMapper.toServiceTeam(teamRepository.save(teamToSave));
     }
 
-    public ServiceTeam updateTeam(ServiceTeam serviceTeam) {
+    public ServiceTeam updateTeam(int teamId, ServiceTeam serviceTeam) {
+        if(teamId != serviceTeam.getId()) throw new RuntimeException("Id and Id in Object do not equal!");
         Team toSave = this.teamRepository.findById(serviceTeam.getId()).orElseThrow(() -> new RuntimeException("Team ID not found: " + serviceTeam.getId()));
         toSave.setName(serviceTeam.getName());
         //set Teamleader

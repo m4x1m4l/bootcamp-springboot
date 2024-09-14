@@ -29,8 +29,9 @@ public class SkillService {
         return ServiceSkillMapper.toServiceSkill( this.skillRepository.save(ServiceSkillMapper.toSkill( skill)));
     }
 
-    public ServiceSkill updateSkill(ServiceSkill skill) {
-        ServiceSkill oldSkill = getSkill(skill.getId());
+    public ServiceSkill updateSkill(int skillId, ServiceSkill skill) {
+        if(skillId != skill.getId()) throw new RuntimeException("Id and Id in Object do not equal!");
+        ServiceSkill oldSkill = getSkill(skillId);
         oldSkill.setName(skill.getName());
         return ServiceSkillMapper.toServiceSkill(skillRepository.save(ServiceSkillMapper.toSkill(oldSkill)));
 

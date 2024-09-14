@@ -31,9 +31,9 @@ public class SkillController {
         return ApiSkillMapper.toApiSkill(skillService.addSkill(ApiSkillMapper.toServiceSkill(skill)));
     }
 
-    @PutMapping
-    public ApiSkill updateSkill(@RequestBody ApiSkill skill){
-        return ApiSkillMapper.toApiSkill(skillService.updateSkill(ApiSkillMapper.toServiceSkill(skill)));
+    @PutMapping("/{skillId}")
+    public ApiSkill updateSkill(@PathVariable int skillId, @RequestBody ApiSkill skill){
+        return ApiSkillMapper.toApiSkill(skillService.updateSkill(skillId, ApiSkillMapper.toServiceSkill(skill)));
     }
 
     @DeleteMapping("/{id}")
