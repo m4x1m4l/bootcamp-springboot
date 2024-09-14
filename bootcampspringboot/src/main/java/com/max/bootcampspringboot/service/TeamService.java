@@ -1,6 +1,7 @@
 package com.max.bootcampspringboot.service;
 
 import com.max.bootcampspringboot.data.entity.Employee;
+import com.max.bootcampspringboot.data.entity.Knowledge;
 import com.max.bootcampspringboot.data.entity.Team;
 import com.max.bootcampspringboot.data.repository.EmployeeRepository;
 import com.max.bootcampspringboot.data.repository.TeamRepository;
@@ -10,10 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TeamService {
@@ -131,6 +129,47 @@ public class TeamService {
     }
 
     public List<String> findBestSkilledEmployeeInTeam(){
-        return teamRepository.findBestSkilledEmployeeInTeam();
+        //Teamname, Name, Skill, experiencelevel
+
+        //welche Teams gibt es -> teamname
+        //welche Skills sind in einem Team? team -> skills
+        //Team, Skill -> höchste experience level
+        //team, skill, höchste experience level -> employee
+        List<String> result = new ArrayList<>();
+
+        List<Team> teams = teamRepository.findAll();
+        teams.forEach(team -> {
+            List<Knowledge> teamKnowledges = new ArrayList<>();
+            team.getEmployees().forEach(teamEmployee -> {
+
+                teamEmployee.getKnowledges().forEach(
+                        teamEmployeeKnowledges -> {
+                            teamKnowledges.add(teamEmployeeKnowledges);
+                        }
+                );
+            });
+
+            teamKnowledges.sort(new Comparator<Knowledge>() {
+                @Override
+                public int compare(Knowledge k1, Knowledge k2) {
+                    return Integer.compare(k2.getExperienceLevel(), k1.getExperienceLevel());
+                }
+            });
+            ArrayList<String> foundSkills = new ArrayList<>();
+            ArrayList<Knowledge> uniqueSkills = new ArrayList<>();
+            teamKnowledges.forEach(knowledge -> {
+                if(!foundSkills.contains(knowledge.getSkill().getName())){
+                    uniqueSkills.add(knowledge);
+                    foundSkills.add(knowledge.getSkill().getName());
+                }
+
+            });
+            uniqueSkills.forEach(skill -> {
+                result.add(team.getName() + ", " + skill.getEmployee().getFirstname() + " " + skill.getEmployee().getLastname() + ", " + skill.getSkill().getName() + ", " + skill.getExperienceLevel());
+            });
+
+        });
+
+        return result;
     }
 }
